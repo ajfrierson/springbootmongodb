@@ -4,6 +4,8 @@ import com.infosys.springbootmongodb.exception.TodoCollectionException;
 import com.infosys.springbootmongodb.model.TodoDTO;
 import com.infosys.springbootmongodb.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
@@ -36,6 +38,16 @@ public class TodoServiceImpl implements TodoService{
             return todos;
         }else {
             return new ArrayList<TodoDTO>();
+        }
+    }
+
+    @Override
+    public TodoDTO getSingleTodo(String id) throws TodoCollectionException {
+        Optional<TodoDTO> optionalTodoDTO = todoRepo.findById(id);
+        if(!optionalTodoDTO.isPresent()){
+            throw new TodoCollectionException(TodoCollectionException.NotFoundException(id));
+        }else {
+            return optionalTodoDTO.get();
         }
     }
 
