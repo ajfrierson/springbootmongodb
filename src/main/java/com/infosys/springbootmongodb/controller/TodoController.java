@@ -26,12 +26,8 @@ public class TodoController {
 
     @GetMapping("/todos")
     public ResponseEntity<?> getAllTodos(){
-        List<TodoDTO> todos = todoRepo.findAll();
-        if(todos.size() > 0){
-            return new ResponseEntity<List<TodoDTO>>(todos, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("No todos available", HttpStatus.NOT_FOUND);
-        }
+        List<TodoDTO> todos = todoService.getAllTodos();
+        return new ResponseEntity<>(todos, todos.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/todos")
