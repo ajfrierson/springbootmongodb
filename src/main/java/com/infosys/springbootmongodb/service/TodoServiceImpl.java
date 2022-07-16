@@ -75,4 +75,16 @@ public class TodoServiceImpl implements TodoService{
         }
     }
 
+
+    @Override
+    public void deleteTodoById(String id) throws TodoCollectionException {
+        Optional<TodoDTO> todoOptional =  todoRepo.findById(id);
+
+        if(!todoOptional.isPresent()){
+            throw new TodoCollectionException(TodoCollectionException.NotFoundException(id));
+        } else {
+            todoRepo.deleteById(id);
+        }
+    }
+
 }
